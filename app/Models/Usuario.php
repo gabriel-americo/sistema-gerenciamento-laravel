@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Usuarios extends Authenticatable
+class Usuario extends Authenticatable
 {
   use Notifiable;
+
+  protected $table = 'usuarios';
 
   protected $fillable = [
     'nome', 'user', 'email', 'sexo', 'imagem', 'password', 'tipo', 'status',
@@ -24,7 +26,7 @@ class Usuarios extends Authenticatable
   // Definindo o relacionamento muitos-para-muitos com o modelo Role
   public function roles()
   {
-    return $this->belongsToMany(Roles::class);
+    return $this->belongsToMany(Role::class);
   }
 
   // Criptogrifar a senha

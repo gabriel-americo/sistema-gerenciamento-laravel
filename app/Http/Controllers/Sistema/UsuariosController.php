@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Sistema;
 
 use App\Http\Requests\UsuariosRequest;
-use App\Models\Usuarios;
-use App\Models\Roles;
+use App\Models\Usuario;
+use App\Models\Role;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Routing\Controller as Controller;
 
 class UsuariosController extends Controller
 {
     protected $usuario;
 
-    public function __construct(Usuarios $usuario)
+    public function __construct(Usuario $usuario)
     {
         $this->usuario = $usuario;
     }
@@ -28,14 +28,14 @@ class UsuariosController extends Controller
             ->select('usuarios.*', 'roles.nome as role_name')
             ->get();
 
-        $roles = Roles::all();
+        $roles = Role::all();
 
         return view('sistema.usuarios.index', compact('usuarios', 'roles'));
     }
 
     public function create()
     {
-        $roles = Roles::all();
+        $roles = Role::all();
 
         return view('sistema.usuarios.create', compact('roles'));
     }
@@ -77,7 +77,7 @@ class UsuariosController extends Controller
     public function edit($id)
     {
         $usuario = $this->usuario->findOrFail($id);
-        $roles = Roles::all();
+        $roles = Role::all();
 
         $status = $usuario['status'] == 'Ativo' ? '1' : '0';
 
@@ -154,15 +154,15 @@ class UsuariosController extends Controller
         if (Hash::check($request->oldpassword, $hashedPassword)) {
 
             if (!Hash::check($request->newpassword, $hashedPassword)) {
-                $this->usuario->where('id', Auth::user()->id)->update(['password' => $request->newpassword]);
+                $this->usuario->where('id', $id)->update(['password' => $request->newpassword]);
 
                 flash('Password atualizado com sucesso!')->success();
             } else {
                 flash('O seu novo password não pode ser igual o antigo!')->warning();
             }
-        } else {
-            flash('Password antigo não é o mesmo!')->warning();
         }
+
+        flash('Password antigo não é o mesmo!')->warning();
 
         return redirect()->back();
     }
@@ -186,7 +186,7 @@ class UsuariosController extends Controller
 
     public function multiDelete(Request $request)
     {
-        Usuarios::whereIn('id', $request->get('selected'))->delete();
+        $this->usuario->whereIn('id', $request->get('selected'))->delete();
 
         return response("Usuarios selecionados excluídos com sucesso.", 200);
     }

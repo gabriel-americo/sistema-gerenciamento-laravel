@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Sistema;
 
-use App\Models\Clientes;
+use App\Models\Cliente;
 
 use App\Http\Requests\ClientesRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Routing\Controller as Controller;
+use App\Http\Controllers\Controller;
 
 class ClientesController extends Controller
 {
     protected $cliente;
 
-    public function __construct(Clientes $cliente)
+    public function __construct(Cliente $cliente)
     {
         $this->cliente = $cliente;
     }
@@ -72,7 +72,7 @@ class ClientesController extends Controller
 
     public function edit($id)
     {
-        $clientes = Clientes::join('endereco_cobrancas', 'endereco_cobrancas.clientes_id', '=', 'clientes.id')
+        $clientes = $this->cliente->join('endereco_cobrancas', 'endereco_cobrancas.clientes_id', '=', 'clientes.id')
         ->join('endereco_envios', 'endereco_envios.clientes_id', '=', 'clientes.id')
         ->select('clientes.*','endereco_cobrancas.*', 'endereco_envios.*')
         ->findOrFail($id);
@@ -144,7 +144,7 @@ class ClientesController extends Controller
 
     public function multiDelete(Request $request) 
     {
-        Clientes::whereIn('id', $request->get('selected'))->delete();
+        $this->cliente->whereIn('id', $request->get('selected'))->delete();
 
         return response("Clientes selecionados excluídos com sucesso.", 200);
     }

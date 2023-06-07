@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Sistema;
 
-use Illuminate\Routing\Controller as Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -48,7 +48,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
         auth()->logout();
 

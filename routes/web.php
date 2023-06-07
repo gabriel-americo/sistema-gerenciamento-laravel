@@ -8,8 +8,9 @@ use App\Http\Controllers\Sistema\ClientesController;
 use App\Http\Controllers\Sistema\ProdutosController;
 
 /* Login */
+
 Route::group(['prefix' => '/', 'namespace' => 'Sistema'], function () {
-    Route::get('login', [AuthController::class, 'showLoginForm'] )->name('login');
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/', [AuthController::class, 'redirect'])->name('/');
