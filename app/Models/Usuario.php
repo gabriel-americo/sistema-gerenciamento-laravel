@@ -26,7 +26,7 @@ class Usuario extends Authenticatable
   // Definindo o relacionamento muitos-para-muitos com o modelo Role
   public function roles()
   {
-    return $this->belongsToMany(Role::class);
+    return $this->belongsToMany(Role::class, 'roles_usuarios', 'usuarios_id', 'roles_id');
   }
 
   // Criptogrifar a senha

@@ -196,7 +196,7 @@
                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                             <a href="{{ route('usuarios.show', $usuario->id) }}">
                                                 <div class="symbol-label">
-                                                    <img src="{{ asset('storage/img/usuarios/' . $usuario->imagem) }}" alt="{{ $usuario->nome }}" class="w-100" />
+                                                    <img src="{{ $usuario->imagem ? asset('storage/img/usuarios/' . $usuario->imagem) : asset('assets/media/avatars/blank.png') }}" alt="{{ $usuario->nome }}" class="w-100" />
                                                 </div>
                                             </a>
                                         </div>
@@ -214,7 +214,7 @@
                                             {{ $usuario->status }}
                                         </div>
                                     </td>
-                                    <td>{{ $usuario->created_at->format('d M Y, g:i a') }}</td>
+                                    <td>{{ $usuario->created_at ? $usuario->created_at->format('d M Y, g:i a') : 'N/A' }}</td>
 
                                     <td class="text-end">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Ações

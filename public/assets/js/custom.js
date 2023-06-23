@@ -42,4 +42,18 @@ var KTSweetAlert2Delete = function () {
 
 $(document).ready(function () {
     KTSweetAlert2Delete.init();
+
+    var input1 = $('#nome_cli');
+    var input2 = $('#nome_cob');
+    var input2 = $('#nome_env');
+
+    input1.on('keyup', function() {
+        input2.val(input1.val());
+        input3.val(input1.val());
+    });
+
+    $('#sobr_cli').on('keyup', function() {
+        $('#sobr_cob').val($('#sobr_cli').val());
+        $('#sobr_env').val($('#sobr_cli').val());
+    });
 })
